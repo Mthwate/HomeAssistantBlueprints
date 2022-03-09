@@ -1,6 +1,7 @@
 blueprint:
   name: Pico Remote
-  description: Automate Pico remotes for light control
+  description: "This is for the 5 button picos that have the following model:\n\n
+  PJ2-3BRL-GXX-X01 (Pico3ButtonRaiseLower)\n\nSelect an action for each button listed below. "
   domain: automation
   input:
     pico_remote:
@@ -42,38 +43,28 @@ trigger:
     domain: lutron_caseta
     type: press
     subtype: 'off'
-  - platform: device
-    device_id: !input pico_remote
-    domain: lutron_caseta
-    type: release
-    subtype: 'on'
-  - platform: device
-    device_id: !input pico_remote
-    domain: lutron_caseta
-    type: release
-    subtype: 'raise'
-  - platform: device
-    device_id: !input pico_remote
-    domain: lutron_caseta
-    type: release
-    subtype: 'stop'
-  - platform: device
-    device_id: !input pico_remote
-    domain: lutron_caseta
-    type: release
-    subtype: 'lower'
-  - platform: device
-    device_id: !input pico_remote
-    domain: lutron_caseta
-    type: release
-    subtype: 'off'
 condition: []
 action:
   - choose:
       - conditions: '{{ trigger.event.data.action == "press" }}'
         sequence:
         - choose:
+          - conditions: '{{ trigger.event.data.button_number == 0 }}'
+            sequence:
+              - alias: "Turn on the light"
+                service: light.turn_on
+                target: !input light_target
+          - conditions: '{{ trigger.event.data.button_number == 1 }}'
+            sequence:
+              - alias: "Turn on the light"
+                service: light.turn_on
+                target: !input light_target
           - conditions: '{{ trigger.event.data.button_number == 2 }}'
+            sequence:
+              - alias: "Turn on the light"
+                service: light.turn_on
+                target: !input light_target
+          - conditions: '{{ trigger.event.data.button_number == 3 }}'
             sequence:
               - alias: "Turn on the light"
                 service: light.turn_on
