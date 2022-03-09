@@ -51,23 +51,23 @@ action:
         - choose:
           - conditions: '{{ trigger.event.data.button_number == 2 }}'
             sequence:
-              - type: turn_on
+              - service: light.turn_on
                 target: !input light_target
           - conditions: '{{ trigger.event.data.button_number == 5 }}'
             sequence:
-              - type: brightness_increase
+              - service: light.brightness_increase
                 target: !input light_target
           - conditions: '{{ trigger.event.data.button_number == 3 }}'
             sequence:
-              - type: toggle
+              - service: light.toggle
                 target: !input light_target
           - conditions: '{{ trigger.event.data.button_number == 6 }}'
             sequence:
-              - type: brightness_decrease
+              - service: light.brightness_decrease
                 target: !input light_target
           - conditions: '{{ trigger.event.data.button_number == 4 }}'
             sequence:
-              - type: turn_off
+              - service: light.turn_off
                 target: !input light_target
     default: []
 mode: restart
