@@ -49,30 +49,25 @@ action:
       - conditions: '{{ trigger.event.data.action == "press" }}'
         sequence:
         - choose:
-          - conditions: '{{ trigger.event.data.button_number == 0 }}'
-            sequence:
-              - alias: "Turn on the light"
-                service: light.turn_on
-                target: !input light_target
-          - conditions: '{{ trigger.event.data.button_number == 1 }}'
-            sequence:
-              - alias: "Turn on the light"
-                service: light.turn_on
-                target: !input light_target
           - conditions: '{{ trigger.event.data.button_number == 2 }}'
             sequence:
-              - alias: "Turn on the light"
-                service: light.turn_on
+              - type: turn_on
+                target: !input light_target
+          - conditions: '{{ trigger.event.data.button_number == 5 }}'
+            sequence:
+              - type: brightness_increase
                 target: !input light_target
           - conditions: '{{ trigger.event.data.button_number == 3 }}'
             sequence:
-              - alias: "Turn on the light"
-                service: light.turn_on
+              - type: toggle
+                target: !input light_target
+          - conditions: '{{ trigger.event.data.button_number == 6 }}'
+            sequence:
+              - type: brightness_decrease
                 target: !input light_target
           - conditions: '{{ trigger.event.data.button_number == 4 }}'
             sequence:
-              - alias: "Turn offthe light"
-                service: light.turn_off
+              - type: turn_off
                 target: !input light_target
     default: []
 mode: restart
