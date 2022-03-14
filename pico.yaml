@@ -53,6 +53,8 @@ action:
             sequence:
               - service: light.turn_on
                 target: !input light_target
+                data:
+                  brightness_pct: 100
           - conditions: '{{ trigger.event.data.button_number == 5 }}'
             sequence:
               - service: light.turn_on
