@@ -1,12 +1,13 @@
 blueprint:
   name: Pico Remote
-  description: "This is for the 5 button picos that have the following model:\n\n
-  PJ2-3BRL-GXX-X01 (Pico3ButtonRaiseLower)\n\nSelect an action for each button listed below. "
+  description: "This is for the 5 button picos that have the following model:\n\n\
+    \ PJ2-3BRL-GXX-X01 (Pico3ButtonRaiseLower)\n\nSelect an action for each button\
+    \ listed below. "
   domain: automation
   input:
     pico_remote:
       name: Pico Remote
-      description: "Select the pico remote to configure:"
+      description: 'Select the pico remote to configure:'
       selector:
         device:
           integration: lutron_caseta
@@ -17,75 +18,76 @@ blueprint:
         target:
           entity:
             domain: light
+  source_url: https://github.com/Mthwate/HomeAssistantBlueprints/blob/main/pico.yaml
 trigger:
-  - platform: device
-    device_id: !input pico_remote
-    domain: lutron_caseta
-    type: press
-    subtype: 'on'
-    id: on
-  - platform: device
-    device_id: !input pico_remote
-    domain: lutron_caseta
-    type: press
-    subtype: 'raise'
-    id: raise
-  - platform: device
-    device_id: !input pico_remote
-    domain: lutron_caseta
-    type: press
-    subtype: 'stop'
-    id: stop
-  - platform: device
-    device_id: !input pico_remote
-    domain: lutron_caseta
-    type: press
-    subtype: 'lower'
-    id: lower
-  - platform: device
-    device_id: !input pico_remote
-    domain: lutron_caseta
-    type: press
-    subtype: 'off'
-    id: off
+- platform: device
+  device_id: !input 'pico_remote'
+  domain: lutron_caseta
+  type: press
+  subtype: 'on'
+  id: 'on'
+- platform: device
+  device_id: !input 'pico_remote'
+  domain: lutron_caseta
+  type: press
+  subtype: 'raise'
+  id: 'raise'
+- platform: device
+  device_id: !input 'pico_remote'
+  domain: lutron_caseta
+  type: press
+  subtype: 'stop'
+  id: 'stop'
+- platform: device
+  device_id: !input 'pico_remote'
+  domain: lutron_caseta
+  type: press
+  subtype: 'lower'
+  id: 'lower'
+- platform: device
+  device_id: !input 'pico_remote'
+  domain: lutron_caseta
+  type: press
+  subtype: 'off'
+  id: 'off'
 condition: []
 action:
-  - choose:
-      - conditions:
-        - condition: trigger
-          id: on
-        sequence:
-        - service: light.turn_on
-          target: !input light_target
-          data:
-            brightness_pct: 100
-      - conditions:
-        - condition: trigger
-          id: raise
-        sequence:
-        - service: light.turn_on
-          target: !input light_target
-          data:
-            brightness_step_pct: 20
-      - conditions:
-        - condition: trigger
-          id: stop
-        sequence:
-        - service: light.toggle
-          target: !input light_target
-      - conditions:
-        - condition: trigger
-          id: lower
-        sequence:
-        - service: light.turn_on
-          target: !input light_target
-          data:
-            brightness_step_pct: -20
-      - conditions:
-        - condition: trigger
-          id: off
-        sequence:
-        - service: light.turn_off
-          target: !input light_target
-    default: []
+- choose:
+  - conditions:
+    - condition: trigger
+      id: true
+    sequence:
+    - service: light.turn_on
+      target: !input 'light_target'
+      data:
+        brightness_pct: 100
+  - conditions:
+    - condition: trigger
+      id: raise
+    sequence:
+    - service: light.turn_on
+      target: !input 'light_target'
+      data:
+        brightness_step_pct: 20
+  - conditions:
+    - condition: trigger
+      id: stop
+    sequence:
+    - service: light.toggle
+      target: !input 'light_target'
+  - conditions:
+    - condition: trigger
+      id: lower
+    sequence:
+    - service: light.turn_on
+      target: !input 'light_target'
+      data:
+        brightness_step_pct: -20
+  - conditions:
+    - condition: trigger
+      id: false
+    sequence:
+    - service: light.turn_off
+      target: !input 'light_target'
+  default: []
 mode: restart
